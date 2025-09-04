@@ -258,7 +258,7 @@ client.on("interactionCreate", async (inter) => {
           // Find linked robloxId in DB
           dbUserRecord = await users.findOne({ discordId: String(discordObj.id) }).exec();
           if (!dbUserRecord) {
-            return fail(emojis.warning + " This Discord account is not linked to any Roblox account. Use the </connect:1409919652494180362> command to link the account.");
+            return fail(emojis.warning + " This Discord account is not linked to any Roblox account. Use the </connect:1413166977555365969> command to link the account.");
           }
 
           // Get Roblox user by stored robloxId
@@ -388,7 +388,7 @@ client.on("interactionCreate", async (inter) => {
             // find linked robloxId in DB
             const linked = await users.findOne({ discordId: String(discordObj.id) }).exec();
             if (!linked) {
-              await inter.channel.send({ content: emojis.warning + ` This Discord account (${discordObj.username ?? discordObj.id}) is not linked to any Roblox account. Use </connect:1409919652494180362> to link.` });
+              await inter.channel.send({ content: emojis.warning + ` This Discord account (${discordObj.username ?? discordObj.id}) is not linked to any Roblox account. Use </connect:1413166977555365969> to link.` });
               continue;
             }
 
@@ -571,7 +571,7 @@ client.on("interactionCreate", async (inter) => {
           // Look up linked Roblox account in DB using discordId
           dbUserByDiscord = await users.findOne({ discordId: String(discordObj.id) }).exec();
           if (!dbUserByDiscord) {
-            return fail(emojis.warning + " This Discord account is not linked to any Roblox account. Use the </connect:1409919652494180362> command to link your account.");
+            return fail(emojis.warning + " This Discord account is not linked to any Roblox account. Use the </connect:1413166977555365969> command to link your account.");
           }
 
           // Fetch Roblox user by the stored robloxId
@@ -697,7 +697,7 @@ client.on("interactionCreate", async (inter) => {
           // Find linked robloxId in DB
           dbUserRecord = await users.findOne({ discordId: String(discordObj.id) }).exec();
           if (!dbUserRecord) {
-            return fail(emojis.warning + " This Discord account is not linked to any Roblox account. Use the </connect:1409919652494180362> command to link your account.");
+            return fail(emojis.warning + " This Discord account is not linked to any Roblox account. Use the </connect:1413166977555365969> command to link your account.");
           }
 
           // Fetch Roblox user by stored robloxId
@@ -713,7 +713,7 @@ client.on("interactionCreate", async (inter) => {
           // Ensure DB doc exists
           dbUserRecord = await users.findOne({ robloxId: String(robloxUser.id) }).exec();
           if (!dbUserRecord || !dbUserRecord.discordId) {
-            return fail(emojis.warning + " This Discord account is not linked to any Roblox account. Use the </connect:1409919652494180362> command to link your account.");
+            return fail(emojis.warning + " This Discord account is not linked to any Roblox account. Use the </connect:1413166977555365969> command to link your account.");
           }
 
           discordIdToPass = String(dbUserRecord.discordId);
