@@ -1073,9 +1073,7 @@ process.on('unhandledRejection', async error => {
 app.post('/verify', async (req, res) => {
   if (stopFlow) return;
   try {
-    console.lg("Received POST /verify")
     if (VERIFY_SECRET) {
-      console.lg("Yes SECRET")
       const headerSecret = req.get('X-VERIFY-SECRET') || req.get('x-verify-secret');
       if (!headerSecret || headerSecret !== VERIFY_SECRET) {
         return res.status(401).json({ ok: false, error: 'invalid-secret' });

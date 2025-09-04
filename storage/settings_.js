@@ -240,8 +240,8 @@ module.exports = {
         status: "online",
         activities: [
           {
-            name: "the People",
-            type: "Listening".toUpperCase(),
+            name: "the Army",
+            type: "Watching".toUpperCase(),
           },
         ],
       },
