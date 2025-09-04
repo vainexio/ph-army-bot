@@ -23,7 +23,6 @@ myIntents.add(
 );
 const client = new Client({ intents: myIntents, partials: ["CHANNEL"] });
 
-const link = "https://ad7738af-9b3f-473a-9150-5f394d2a14a7-00-3lsgrdmc5s7oz.riker.replit.dev/"
 // Secrets
 const token = process.env.SECRET;
 const mongooseToken = process.env.MONGOOSE;
@@ -97,7 +96,7 @@ client.on("ready", async () => {
     xp: { type: Number, default: 0 },
   });
 
-  users = mongoose.model("PN_Users2", usersSchema);
+  users = mongoose.model("PA_Users", usersSchema);
 
   if (slashCmd.register) {
     let discordUrl = "https://discord.com/api/v10/applications/" + client.user.id + "/commands"
@@ -210,22 +209,6 @@ client.on("messageCreate", async (message) => {
   if (message.content == "killdis") {
     if (!await getPerms(message.member, 5)) return;
     stopFlow = true
-  }
-  if (message.content == ".test") {
-    if (!await getPerms(message.member, 5)) return;
-
-    const mainRoles = [
-      "1333693159108120637",
-      "1307260692805451836",
-      "1299675107190378506",
-      "1396293331318870247",
-      "1396293574600949881",
-      "1299677574976372746",
-      "1299675107886891048",
-      "1302670711856562216"
-    ];
-
-    addRole(message.member, mainRoles, message.guild)
   }
 }); //END MESSAGE CREATE
 
