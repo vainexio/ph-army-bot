@@ -671,7 +671,7 @@ client.on("interactionCreate", async (inter) => {
 
       const group = config.groups[0];
       const groupId = group.groupId;
-      const guild = await getGuild("1287311377274372198"); // you used this earlier
+      const guild = await getGuild("1261688857062281267"); // you used this earlier
 
       await inter.deferReply();
 
@@ -1126,7 +1126,7 @@ app.post('/verify', async (req, res) => {
 
     (async () => {
       try {
-        const guildData = await getGuild("1287311377274372198")
+        const guildData = await getGuild("1261688857062281267")
         const user = await client.users.fetch(discordId);
         const robloxUser = await handler.getUser(robloxUsername);
         const group = config.groups[0]
