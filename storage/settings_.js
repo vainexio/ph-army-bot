@@ -201,7 +201,7 @@ module.exports = {
           {
             "id": 109871350,
             "name": "Chief Engineer",
-            "prefix": "[CEC]",
+            "prefix": "[CE]",
             "rank": 23,
             "roles": [
               "1413154692414046338",
