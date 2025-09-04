@@ -17,7 +17,7 @@ module.exports = {
   prefix: ";", // Prefix
   config: {
     channels: {
-      logs: '1393519791331082332',
+      logs: '1413165222914687128',
       templates: '1411234162882515017',
       selections: '1392701616393687111',
       trainings: '1392701528753836124',
@@ -237,7 +237,7 @@ module.exports = {
     ],
     bot: {
       status: {
-        status: "dnd",
+        status: "online",
         activities: [
           {
             name: "the People",

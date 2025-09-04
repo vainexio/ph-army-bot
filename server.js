@@ -762,107 +762,7 @@ client.on("interactionCreate", async (inter) => {
         return inter.editReply({ content: '```diff\n- An unexpected error occurred. Check the bot logs.```' });
       }
     }
-
-    else if (cname === 'selection') {
-      if (!await getPerms(inter.member, 4) && !hasRole(inter.member, ["1392702881349632170"])) return inter.reply({ content: emojis.warning + ' Insufficient Permission' });
-
-      const options = inter.options._hoistedOptions;
-      const division = options.find(a => a.name === 'division');
-      const host = options.find(a => a.name === 'host');
-      const note = options.find(a => a.name === 'note');
-      const link = options.find(a => a.name === 'link');
-      const thumbnail = options.find(a => a.name === 'promotion_image');
-      const coHost = options.find(a => a.name === 'co_host');
-
-      if (thumbnail.attachment.contentType !== 'image/png' && thumbnail.attachment.contentType !== 'image/jpeg') return inter.reply({ content: emojis.warning + ' Invalid image format. Use `.png` or `.jpg`', ephemeral: true })
-
-      await inter.deferReply()
-
-      let templates = await getChannel(config.channels.templates)
-      let msg = await templates.messages.fetch('1411234247317913610')
-      let content = msg.content
-      //content = content.replace('{division}', division.value)
-      content = content.replace('{host}', host.user.toString())
-      content = content.replace('{note}', note.value)
-      content = content.replace('{link}', link.value)
-      content = content.replace('{coHost}', coHost ? coHost.user.toString() : "N/A")
-      content = content.replace('{status}', emojis.on + " OPEN")
-
-      let embed = new MessageEmbed()
-        .setTitle(division.value+" Selection")
-        .setColor(colors.blue)
-        .setImage(thumbnail.attachment.url)
-        .setDescription(content)
-
-      let msgId = null
-      let announcement = await getChannel(config.channels.selections)
-      await announcement.send({ content: '<@&1299701752525754419>', embeds: [embed] }).then(msg => msgId = msg.id)
-
-      const row = new MessageActionRow().addComponents(
-        new MessageButton().setCustomId('toggleSelection-' + inter.user.id + "-" + msgId).setLabel('Close Selection').setStyle('SECONDARY').setEmoji(emojis.on),
-        new MessageButton().setCustomId('endSelection-' + inter.user.id + "-" + msgId).setLabel('End').setStyle('DANGER'),
-      );
-      await inter.editReply({ content: emojis.check + " Posted selection for **" + division.value + "**.\n\nSelection Controls:", components: [row] })
-
-      // Audit logging
-      let logs = await getChannel(config.channels.logs)
-      let logEmbed = new MessageEmbed(embed)
-        .addFields({name: "Audit Log", value: inter.user.toString() + " used `/selection` command."})
-      await logs.send({ embeds: [logEmbed] });
-    }
-    else if (cname === "training") {
-      if (!await getPerms(inter.member, 4) && !hasRole(inter.member, ["1392492838201196644"])) return inter.reply({ content: emojis.warning + ' Insufficient Permission' });
       
-      const options = inter.options._hoistedOptions;
-      const type = options.find(a => a.name === "type");
-      const host = options.find(a => a.name === "host");
-      const note = options.find(a => a.name === "note");
-      const link = options.find(a => a.name === "link");
-      const coHost = options.find(a => a.name === "co_host");
-
-      await inter.deferReply();
-      
-      let templates = await getChannel(config.channels.templates)
-      let msg = await templates.messages.fetch('1411234247317913610')
-      let content = msg.content
-      content = content.replace('{type}', type.value)
-      content = content.replace('{host}', host.user.toString())
-      content = content.replace('{note}', note.value)
-      content = content.replace('{link}', link.value)
-      content = content.replace('{coHost}', coHost ? coHost.user.toString() : "N/A")
-      content = content.replace('{status}', emojis.on + " OPEN")
-
-      let embed = new MessageEmbed()
-        .setTitle(type.value.toString())
-        .setColor(colors.blue)
-        .setDescription(content)
-        .setImage('https://i.imgur.com/76HiiYq.png')
-
-      let msgId = null
-      let announcement = await getChannel(config.channels.trainings)
-      await announcement.send({ content: '<@&1299675105810710571> <@&1299675105353404426> <@&1299673369205280779>', embeds: [embed] }).then(msg => msgId = msg.id)
-
-      const row = new MessageActionRow().addComponents(
-        new MessageButton()
-          .setCustomId(`toggleTraining-${inter.user.id}-${msgId}`)
-          .setLabel("Close Training")
-          .setStyle("SECONDARY")
-          .setEmoji(emojis.on),
-        new MessageButton()
-          .setCustomId(`endTraining-${inter.user.id}-${msgId}`)
-          .setLabel("End")
-          .setStyle("DANGER")
-      );
-
-      await inter.editReply({ content: `${emojis.check} Posted **${type.value}**.\n\nTraining Controls:`, components: [row] });
-
-      // Audit logging
-      let logs = await getChannel(config.channels.logs)
-      let logEmbed = new MessageEmbed(embed)
-        .addFields({name: "Audit Log", value: inter.user.toString() + " used `/training` command."})
-      await logs.send({ embeds: [logEmbed] });
-    }
-
     else if (cname === 'connect') {
       try {
         const discordId = inter.user.id;
@@ -896,7 +796,7 @@ client.on("interactionCreate", async (inter) => {
 
         // Send ephemeral reply so command doesn't spam channel
         await inter.editReply({
-          content: `Join the Roblox game using the account you wish to connect and enter the code.\n\n**Roblox game:** https://www.roblox.com/games/139036933077247/VERIFICATION\n**Enter this code:**\n# ${code}\n\nThe code will expire <t:${Math.floor(expiresAt / 1000)}:R>.`,
+          content: `Join the Roblox game using the account you wish to connect and enter the code.\n\n**Roblox game:** https://www.roblox.com/games/99456120496979/Discord-Verification\n**Enter this code:**\n# ${code}\n\nThe code will expire <t:${Math.floor(expiresAt / 1000)}:R>.`,
           ephemeral: true,
         });
 
