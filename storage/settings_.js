@@ -230,10 +230,10 @@ module.exports = {
           }
         ]
       },
-      { "groupId": 34634981, "mainRole": "1266333954009600060", "roles": [] }, // MPB
-      { "groupId": 8582078, "mainRole": "1274256995704115221", "roles": [] }, // SOCOM
-      { "groupId": 34635006, "mainRole": "1266333831070224476", "roles": [] }, // SRR
-      { "groupId": 34628760, "mainRole": "1266333986410463263", "roles": [] }, // TRADOC
+      { "groupId": 620652552, "mainRole": "1266333954009600060", "roles": [] }, // MPB
+      { "groupId": 544329418, "mainRole": "1274256995704115221", "roles": [] }, // SOCOM
+      { "groupId": 1030204528, "mainRole": "1266333831070224476", "roles": [] }, // SRR
+      { "groupId": 815276884, "mainRole": "1266333986410463263", "roles": [] }, // TRADOC
     ],
     bot: {
       status: {
