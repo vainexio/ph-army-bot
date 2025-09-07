@@ -297,11 +297,13 @@ client.on("interactionCreate", async (inter) => {
         if (!targetRole) {
           return fail(`Rank does not exist: ${rankOpt.value}`);
         }
+        console.log(targetRole,robloxUser,groupId)
 
         // Attempt to change rank
         const updateRank = await handler.changeUserRank({ groupId: groupId, userId: robloxUser.id, roleId: targetRole.id });
 
         if (!updateRank || updateRank.status !== 200) {
+          console.log(updateRank)
           const statusText = updateRank?.statusText || (updateRank?.error ?? 'Unknown error');
           return fail(emojis.warning + " Cannot change rank:\n```diff\n- " + updateRank.status + ": " + statusText + "```");
         }
