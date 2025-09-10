@@ -215,14 +215,39 @@ module.exports = {
             ]
           },
           {
-            "id": 109871187,
-            "name": "[LTGEN] Lieutenant General",
-            "prefix": "[LTGEN]",
-            "rank": 21,
+            "id": 109871200,
+            "name": "[CSPA] Chief of Staff of the Philippine Army",
+            "prefix": "[CSPA]",
+            "rank": 22,
             "roles": [
               "1413156071538692227",
               "1413154692414046338",
-              "1413484948223950990"
+              "1414589767705694301",
+              "1415376510508077176",
+            ]
+          },
+          {
+            "id": 109871187,
+            "name": "[VCPA] Vice Commander of the Philippine Army",
+            "prefix": "[VCPA]",
+            "rank": 23,
+            "roles": [
+              "1413156071538692227",
+              "1413154692414046338",
+              "1414589767705694301",
+              "1415376393893707990",
+            ]
+          },
+          {
+            "id": 109871187,
+            "name": "[CGPA] Commanding General of the Philippine Army",
+            "prefix": "[CGPA]",
+            "rank": 24,
+            "roles": [
+              "1413156071538692227",
+              "1413154692414046338",
+              "1413484948223950990",
+              "1415376173591957596",
             ]
           },
           {
