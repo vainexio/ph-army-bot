@@ -769,7 +769,7 @@ client.on("interactionCreate", async (inter) => {
       try {
         const discordId = inter.user.id;
 
-        await inter.deferReply({ ephemeral: true })
+        await inter.reply({ content: emojis.loading + " Generating code...", })
         // Prevent creating another code if there is a pending one for this user
         const existingCode = codeByDiscord.get(discordId);
         if (existingCode) {
@@ -777,7 +777,7 @@ client.on("interactionCreate", async (inter) => {
           if (entry && entry.expiresAt > Date.now()) {
             // Still valid
             await inter.editReply({
-              content: `You already have an active verification code. Please join the Roblox game and enter that code. If you didn't receive it, check your DMs. (Code expires <t:${Math.floor(entry.expiresAt / 1000)}:R>)`,
+              content: `You already have an active verification code. Please join the Roblox game and enter that code. (Code expires <t:${Math.floor(entry.expiresAt / 1000)}:R>)`,
               ephemeral: true,
             });
             return;
@@ -797,10 +797,11 @@ client.on("interactionCreate", async (inter) => {
         codeByDiscord.set(discordId, code);
 
         // Send ephemeral reply so command doesn't spam channel
-        await inter.editReply({
+        await inter.followUp({
           content: `Join the Roblox game using the account you wish to connect and enter the code.\n\n**Roblox game:** https://www.roblox.com/games/99456120496979/Discord-Verification\n**Enter this code:**\n# ${code}\n\nThe code will expire <t:${Math.floor(expiresAt / 1000)}:R>.`,
           ephemeral: true,
         });
+        await inter.editReply({ content: emojis.check+" Code generated." });
 
         // (Optional) Log
         console.log(`Generated verification code ${code} for Discord ID ${discordId}, expires ${new Date(expiresAt).toISOString()}`);
