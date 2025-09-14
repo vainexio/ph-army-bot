@@ -84,8 +84,8 @@ module.exports = {
           },
           {
             "id": 109870601,
-            "name": "[TSG] Technical Sergeant",
-            "prefix": "[TSG]",
+            "name": "[TSGT] Technical Sergeant",
+            "prefix": "[TSGT]",
             "rank": 7,
             "requiredXp": 1,
             "roles": [
@@ -216,21 +216,18 @@ module.exports = {
           },
           {
             "id": 109871187,
-            "name": "[CSPA] Chief of Staff of the Philippine Army",
-            "prefix": "[CSPA]",
+            "name": "[SMPA] Sergeant Major of the Philippine Army",
+            "prefix": "[SMPA]",
             "rank": 22,
             "roles": [
-              "1413156071538692227",
-              "1413154692414046338",
-              "1414589767705694301",
-              "1415376510508077176",
               "1415376688828776509",
+              "1413482945120960533",
             ]
           },
           {
             "id": 109871340,
-            "name": "[VCPA] Vice Commander of the Philippine Army",
-            "prefix": "[VCPA]",
+            "name": "[DCPA] Deputy Commander of the Philippine Army",
+            "prefix": "[DCPA]",
             "rank": 23,
             "roles": [
               "1413156071538692227",
@@ -242,8 +239,8 @@ module.exports = {
           },
           {
             "id": 527114012,
-            "name": "[CGPA] Commanding General of the Philippine Army",
-            "prefix": "[CGPA]",
+            "name": "[CPA] Commander of the Philippine Army",
+            "prefix": "[CPA]",
             "rank": 24,
             "roles": [
               "1413156071538692227",
