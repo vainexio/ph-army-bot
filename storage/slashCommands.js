@@ -14,7 +14,7 @@ ATTACHMENT - 11
 
 module.exports = {
   register: true,
-  deleteSlashes: [],
+  deleteSlashes: ['1413167010845556797'],
   slashes: [
     {
       "name": "connect",
