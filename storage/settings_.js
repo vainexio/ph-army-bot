@@ -215,6 +215,18 @@ module.exports = {
             ]
           },
           {
+            "id": 525118011,
+            "name": "[LTGEN] Lieutenant General",
+            "prefix": "[LTGEN]",
+            "rank": 21,
+            "roles": [
+              "1413156071538692227",
+              "1413154692414046338",
+              "1413484948223950990",
+              "1415376688828776509,
+            ]
+          },
+          {
             "id": 109871187,
             "name": "[SMPA] Sergeant Major of the Philippine Army",
             "prefix": "[SMPA]",
