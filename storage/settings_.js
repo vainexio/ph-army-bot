@@ -318,8 +318,8 @@ module.exports = {
   },
   permissions: [
     {
-      id: "",
-      level: 3,
+      id: "1414589767705694301",
+      level: 4,
     },
     {
       id: "1415376688828776509", // HQ
