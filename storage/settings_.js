@@ -215,18 +215,6 @@ module.exports = {
             ]
           },
           {
-            "id": 525118011,
-            "name": "[LTGEN] Lieutenant General",
-            "prefix": "[LTGEN]",
-            "rank": 21,
-            "roles": [
-              "1413156071538692227",
-              "1413154692414046338",
-              "1413484948223950990",
-              "1415376688828776509",
-            ]
-          },
-          {
             "id": 109871187,
             "name": "[SMPA] Sergeant Major of the Philippine Army",
             "prefix": "[SMPA]",
@@ -238,13 +226,13 @@ module.exports = {
           },
           {
             "id": 109871340,
-            "name": "[DCPA] Deputy Commander of the Philippine Army",
-            "prefix": "[DCPA]",
+            "name": "[VCPA] Vice Commander of the Philippine Army",
+            "prefix": "[VCPA]",
             "rank": 23,
             "roles": [
               "1413156071538692227",
               "1413154692414046338",
-              "1413484948223950990",
+              "1414589767705694301",
               "1415376393893707990",
               "1415376688828776509",
             ]
@@ -257,7 +245,7 @@ module.exports = {
             "roles": [
               "1413156071538692227",
               "1413154692414046338",
-              "1416773546717478962",
+              "1413484948223950990",
               "1415376173591957596",
               "1415376688828776509",
             ]
@@ -276,8 +264,20 @@ module.exports = {
           },
           {
             "id": 109870467,
-            "name": "General of the Army",
-            "prefix": "[GEN]",
+            "name": "Chief of Staff of the AFP",
+            "prefix": "[CSAFP]",
+            "rank": 26,
+            "roles": [
+              "1413156071538692227",
+              "1413154692414046338",
+              "1261689693800632422",
+              "1415376688828776509",
+            ]
+          },
+          {
+            "id": 109870467,
+            "name": "Secretary of National Defense",
+            "prefix": "[SND]",
             "rank": 254,
             "roles": [
               "1413156071538692227",
@@ -299,9 +299,12 @@ module.exports = {
           }
         ]
       },
-      { "groupId": 620652552, "mainRole": "1266333954009600060", "roles": [] }, // MPB
+      { "groupId": 620652552, "mainRole": "1266333954009600060", "roles": [] }, // AMP
       { "groupId": 544329418, "mainRole": "1274256995704115221", "roles": [] }, // SOCOM
-      { "groupId": 1030204528, "mainRole": "1266333831070224476", "roles": [] }, // SRR
+      { "groupId": 1030204528, "mainRole": "1420406497313165455", "roles": [] }, // SRR
+      { "groupId": 308980598, "mainRole": "1420406646370336830", "roles": [] }, // LRR
+      { "groupId": 295395240, "mainRole": "1420406552120262686", "roles": [] }, // SFRA
+      { "groupId": 8584027, "mainRole": "1416811650995978322", "roles": [] }, // JRSG
       { "groupId": 815276884, "mainRole": "1266333986410463263", "roles": [] }, // TRADOC
     ],
     bot: {
