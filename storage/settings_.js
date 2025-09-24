@@ -215,7 +215,7 @@ module.exports = {
             ]
           },
           {
-            "id": 109871187,
+            "id": 533320005,
             "name": "[SMPA] Sergeant Major of the Philippine Army",
             "prefix": "[SMPA]",
             "rank": 22,
@@ -225,7 +225,7 @@ module.exports = {
             ]
           },
           {
-            "id": 109871340,
+            "id": 109871187,
             "name": "[VCPA] Vice Commander of the Philippine Army",
             "prefix": "[VCPA]",
             "rank": 23,
@@ -238,7 +238,7 @@ module.exports = {
             ]
           },
           {
-            "id": 527114012,
+            "id": 109871340,
             "name": "[CPA] Commander of the Philippine Army",
             "prefix": "[CPA]",
             "rank": 24,
@@ -251,7 +251,7 @@ module.exports = {
             ]
           },
           {
-            "id": 109871350,
+            "id": 527114012,
             "name": "District Engineer",
             "prefix": "[DE]",
             "rank": 25,
@@ -263,7 +263,7 @@ module.exports = {
             ]
           },
           {
-            "id": 109870467,
+            "id": 109871350,
             "name": "Chief of Staff of the AFP",
             "prefix": "[CSAFP]",
             "rank": 26,
