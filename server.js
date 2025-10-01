@@ -1276,7 +1276,7 @@ async function updateUserRolesToCurrent(robloxId, guild, opts = {}) {
 
         // Find the matching configured groupRole in this group's `roles` array by Roblox role id
         const matchedRoleConfig = Array.isArray(groupCfg.roles)
-          ? groupCfg.roles.find(r => String(r.id) === String(userRole.id))
+          ? groupCfg.roles.find(r => String(r.rank) === String(userRole.rank))
           : null;
 
         if (matchedRoleConfig) {

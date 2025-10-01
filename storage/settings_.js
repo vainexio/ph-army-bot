@@ -28,7 +28,6 @@ module.exports = {
         "mainRole": "1261689745394896896",
         "roles": [
           {
-            "id": 109870468,
             "name": "[PVT] Private",
             "prefix": "[PVT]",
             "rank": 1,
@@ -41,7 +40,6 @@ module.exports = {
             ]
           },
           {
-            "id": 109870538,
             "name": "[PFC] Private First Class",
             "prefix": "[PFC]",
             "rank": 2,
@@ -54,7 +52,6 @@ module.exports = {
             ]
           },
           {
-            "id": 109870573,
             "name": "[CPL] Corporal",
             "prefix": "[CPL]",
             "rank": 3,
@@ -67,7 +64,6 @@ module.exports = {
             ]
           },
           {
-            "id": 109870587,
             "name": "[SGT] Sergeant",
             "prefix": "[SGT]",
             "rank": 5,
@@ -80,7 +76,6 @@ module.exports = {
             ]
           },
           {
-            "id": 109870590,
             "name": "[SSGT] Staff Sergeant",
             "prefix": "[SSGT]",
             "rank": 6,
@@ -93,7 +88,6 @@ module.exports = {
             ]
           },
           {
-            "id": 109870601,
             "name": "[TSGT] Technical Sergeant",
             "prefix": "[TSGT]",
             "rank": 7,
@@ -105,7 +99,6 @@ module.exports = {
             ]
           },
           {
-            "id": 109870603,
             "name": "[MSG] Master Sergeant",
             "prefix": "[MSG]",
             "rank": 8,
@@ -116,7 +109,6 @@ module.exports = {
             ]
           },
           {
-            "id": 109870629,
             "name": "[SMSG] Senior Master Sergeant",
             "prefix": "[SMSG]",
             "rank": 9,
@@ -127,7 +119,6 @@ module.exports = {
             ]
           },
           {
-            "id": 109870637,
             "name": "[CMSG] Chief Master Sergeant",
             "prefix": "[CMSG]",
             "rank": 10,
@@ -138,7 +129,6 @@ module.exports = {
             ]
           },
           {
-            "id": 109870644,
             "name": "[2LT] Second Lieutenant",
             "prefix": "[2LT]",
             "rank": 12,
@@ -149,7 +139,6 @@ module.exports = {
             ]
           },
           {
-            "id": 109870652,
             "name": "[1LT] First Lieutenant",
             "prefix": "[1LT]",
             "rank": 13,
@@ -160,7 +149,6 @@ module.exports = {
             ]
           },
           {
-            "id": 109870653,
             "name": "[CPT] Captain",
             "prefix": "[CPT]",
             "rank": 14,
@@ -171,7 +159,6 @@ module.exports = {
             ]
           },
           {
-            "id": 109870663,
             "name": "[MAJ] Major",
             "prefix": "[MAJ]",
             "rank": 15,
@@ -182,7 +169,6 @@ module.exports = {
             ]
           },
           {
-            "id": 109871127,
             "name": "[LTCOL] Lieutenant Colonel",
             "prefix": "[LTCOL]",
             "rank": 16,
@@ -193,7 +179,6 @@ module.exports = {
             ]
           },
           {
-            "id": 109871132,
             "name": "[COL] Colonel",
             "prefix": "[COL]",
             "rank": 17,
@@ -204,7 +189,6 @@ module.exports = {
             ]
           },
           {
-            "id": 109871171,
             "name": "[BGEN] Brigadier General",
             "prefix": "[BGEN]",
             "rank": 19,
@@ -215,7 +199,6 @@ module.exports = {
             ]
           },
           {
-            "id": 109871200,
             "name": "[MGEN] Major General",
             "prefix": "[MGEN]",
             "rank": 20,
@@ -226,7 +209,6 @@ module.exports = {
             ]
           },
           {
-            "id": 533320005,
             "name": "[SMPA] Sergeant Major of the Philippine Army",
             "prefix": "[SMPA]",
             "rank": 22,
@@ -236,7 +218,6 @@ module.exports = {
             ]
           },
           {
-            "id": 109871187,
             "name": "[VCPA] Vice Commander of the Philippine Army",
             "prefix": "[VCPA]",
             "rank": 23,
@@ -249,9 +230,8 @@ module.exports = {
             ]
           },
           {
-            "id": 109871340,
-            "name": "[CPA] Commander of the Philippine Army",
-            "prefix": "[CPA]",
+            "name": "[CGPA] Commander of the Philippine Army",
+            "prefix": "[CGPA]",
             "rank": 24,
             "roles": [
               "1413156071538692227",
@@ -262,7 +242,6 @@ module.exports = {
             ]
           },
           {
-            "id": 527114012,
             "name": "District Engineer",
             "prefix": "[DE]",
             "rank": 25,
@@ -274,7 +253,6 @@ module.exports = {
             ]
           },
           {
-            "id": 109871350,
             "name": "Chief of Staff of the AFP",
             "prefix": "[CSAFP]",
             "rank": 26,
@@ -286,7 +264,15 @@ module.exports = {
             ]
           },
           {
-            "id": 109870467,
+            "name": "Secretary of Foreign Affairs",
+            "prefix": "[SFA]",
+            "rank": 253,
+            "roles": [
+              "1415376688828776509",
+              "1416678478044074014",
+            ]
+          },
+          {
             "name": "Secretary of National Defense",
             "prefix": "[SND]",
             "rank": 254,
@@ -296,7 +282,6 @@ module.exports = {
             ]
           },
           {
-            "id": 109870466,
             "name": "Philippine Army Holder",
             "prefix": "[H]",
             "rank": 255,
