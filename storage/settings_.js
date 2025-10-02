@@ -300,6 +300,9 @@ module.exports = {
       { "groupId": 295395240, "mainRole": "1420406552120262686", "roles": [] }, // SFRA
       { "groupId": 8584027, "mainRole": "1416811650995978322", "roles": [] }, // JRSG
       { "groupId": 815276884, "mainRole": "1266333986410463263", "roles": [] }, // TRADOC
+      { "groupId": 34844808, "mainRole": "1417828863169396756", "roles": [] }, // OCS
+      { "groupId": 14198648, "mainRole": "1422981951815548998", "roles": [] }, // 1ID
+      { "groupId": 33359913, "mainRole": "1423143103128141914", "roles": [] }, // DFA
     ],
     bot: {
       status: {
