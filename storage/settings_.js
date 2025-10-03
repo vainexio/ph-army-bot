@@ -266,7 +266,7 @@ module.exports = {
           {
             "name": "Secretary of Foreign Affairs",
             "prefix": "[SFA]",
-            "rank": 253,
+            "rank": 250,
             "roles": [
               "1415376688828776509",
               "1416678478044074014",

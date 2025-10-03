@@ -14,7 +14,7 @@ ATTACHMENT - 11
 
 module.exports = {
   register: true,
-  deleteSlashes: ['1413167010845556797'],
+  deleteSlashes: ['1417891106833699067'],
   slashes: [
     {
       "name": "connect",
@@ -42,6 +42,16 @@ module.exports = {
       ]
     },
     {
+      name: 'setrank',
+      type: 1,
+      description: 'Update user rank',
+      options: [
+        { name: 'user', type: 3, description: 'Discord or Roblox username', required: true },
+        { name: 'rank', type: 3, description: 'Rank', required: true },
+      ]
+    },
+    /*
+    {
       "name": "viewxp",
       "type": 1,
       "description": "View user XP",
@@ -54,17 +64,6 @@ module.exports = {
         },
       ]
     },
-    {
-      name: 'setrank',
-      type: 1,
-      description: 'Update user rank',
-      options: [
-        { name: 'user', type: 3, description: 'Discord or Roblox username', required: true },
-        { name: 'rank', type: 3, description: 'Rank', required: true },
-      ]
-    },
-    /*
-
     {
       "name": "xp",
       "type": 1,
