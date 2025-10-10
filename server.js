@@ -1138,7 +1138,7 @@ app.post('/verify', async (req, res) => {
         if (member) {
           let userRole = await handler.getUserRole(group.groupId, robloxUser.id);
           if (!userRole.error) {
-            let groupRole = group.roles.find(r => r.id === userRole.rank);
+            let groupRole = group.roles.find(r => r.rank === userRole.rank);
             member.setNickname(groupRole.prefix + " " + robloxUser.name)
 
             const result = await updateUserRolesToCurrent(String(robloxUser.id), guildData, { discordId: user.id });
