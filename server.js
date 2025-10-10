@@ -448,7 +448,7 @@ client.on("interactionCreate", async (inter) => {
             continue;
           }
 
-          const groupRole = group.roles.find(r => r.id === userRole.id) || null;
+          const groupRole = group.roles.find(r => r.rank === userRole.rank) || null;
           const nextRole = groupRole ? group.roles.find(r => r.rank === groupRole.rank + 1) : null;
 
           if (!nextRole || !nextRole.requiredXp) {
@@ -607,7 +607,7 @@ client.on("interactionCreate", async (inter) => {
         }
 
         // Resolve rank info and next rank
-        const groupRole = group.roles.find(r => r.id === userRole.id);
+        const groupRole = group.roles.find(r => r.id === userRole.rank);
         let nextRole = group.roles.find(r => r.rank === (groupRole?.rank ?? -1) + 1);
         let notAttainable = false;
         if (!nextRole) nextRole = { name: "N/A" };
@@ -1138,7 +1138,7 @@ app.post('/verify', async (req, res) => {
         if (member) {
           let userRole = await handler.getUserRole(group.groupId, robloxUser.id);
           if (!userRole.error) {
-            let groupRole = group.roles.find(r => r.id === userRole.id);
+            let groupRole = group.roles.find(r => r.id === userRole.rank);
             member.setNickname(groupRole.prefix + " " + robloxUser.name)
 
             const result = await updateUserRolesToCurrent(String(robloxUser.id), guildData, { discordId: user.id });
