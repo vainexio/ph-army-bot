@@ -5,7 +5,6 @@ const others = require('../functions/others.js')
 const get = require('../functions/get.js')
 const fetch = require('node-fetch');
 
-let csrfToken = "abc"
 
 async function refreshToken(cookie) {
   const response = await fetch('https://auth.roblox.com/v2/logout', {
@@ -24,6 +23,7 @@ async function refreshToken(cookie) {
   }
 }
 
+let csrfToken = await refreshToken(process.env.Cookie);
 let userCache = []
 let groupRolesCache = []
 
@@ -65,7 +65,14 @@ module.exports = {
       let user;
       if (/^\d+$/.test(usernameOrId)) {
         // Treat as Roblox ID
-        let userResponse = await fetch(`https://users.roblox.com/v1/users/${usernameOrId}`);
+        let userResponse = await fetch(`https://users.roblox.com/v1/users/${usernameOrId}`,{
+          method: 'GET',
+          headers: { 
+            'Content-Type': 'application/json',
+            "x-csrf-token": csrfToken,
+            "Cookie": `${process.env.Cookie}`
+          },
+        });
         if (!userResponse.ok) {
           return { error: userResponse.status + ": " + userResponse.statusText };
         }
@@ -77,6 +84,7 @@ module.exports = {
           body: JSON.stringify({ usernames: [usernameOrId], excludeBannedUsers: false }),
           headers: { 
             'Content-Type': 'application/json',
+            "x-csrf-token": csrfToken,
             "Cookie": `${process.env.Cookie}`
           },
         });
