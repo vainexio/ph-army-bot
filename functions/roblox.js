@@ -23,7 +23,15 @@ async function refreshToken(cookie) {
   }
 }
 
-let csrfToken = await refreshToken(process.env.Cookie);
+
+let csrfToken = "abc"
+async function main() {
+  csrfToken = await refreshToken(process.env.Cookie);
+  console.log(csrfToken);
+}
+
+main();
+
 let userCache = []
 let groupRolesCache = []
 
