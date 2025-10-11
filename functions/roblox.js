@@ -75,7 +75,10 @@ module.exports = {
         let userResponse = await fetch('https://users.roblox.com/v1/usernames/users', {
           method: 'POST',
           body: JSON.stringify({ usernames: [usernameOrId], excludeBannedUsers: false }),
-          headers: { 'Content-Type': 'application/json' }
+          headers: { 
+            'Content-Type': 'application/json',
+            "Cookie": `${process.env.Cookie}`
+          },
         });
         if (!userResponse.ok) {
           return { error: userResponse.status + ": " + userResponse.statusText };
