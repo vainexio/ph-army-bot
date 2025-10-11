@@ -32,7 +32,7 @@ async function main() {
 
 main();
 
-let userCache = []
+let userCache = {}
 let groupRolesCache = []
 
 module.exports = {
@@ -63,53 +63,82 @@ module.exports = {
       thumbnail = !thumbnail.errors ? thumbnail.data[0].imageUrl : '';
       return thumbnail;
     },
-    getUser: async function(usernameOrId) {
-      // If it's already cached by string key, return
-      if (userCache[usernameOrId.toLowerCase?.() || usernameOrId]) {
-        console.log('User cache hit:', usernameOrId.toLowerCase?.() || usernameOrId);
-        return userCache[usernameOrId.toLowerCase?.() || usernameOrId];
+    getUser: async function (usernameOrId) {
+      // normalize incoming lookup key
+      const lookupKey = typeof usernameOrId === "string"
+        ? usernameOrId.toLowerCase()
+        : String(usernameOrId);
+
+      // quick cache hit by lookupKey
+      if (userCache[lookupKey]) {
+        console.log("User cache hit (by lookupKey):", lookupKey);
+        return userCache[lookupKey];
+      }
+
+      // also try treating lookupKey as numeric id string
+      if (userCache[String(Number(lookupKey))]) {
+        console.log("User cache hit (by id):", String(Number(lookupKey)));
+        return userCache[String(Number(lookupKey))];
       }
 
       let user;
-      if (/^\d+$/.test(usernameOrId)) {
-        // Treat as Roblox ID
-        let userResponse = await fetch(`https://users.roblox.com/v1/users/${usernameOrId}`,{
-          method: 'GET',
-          headers: { 
-            'Content-Type': 'application/json',
-            "x-csrf-token": csrfToken,
-            "Cookie": `${process.env.Cookie}`
-          },
-        });
-        if (!userResponse.ok) {
-          return { error: userResponse.status + ": " + userResponse.statusText };
+
+      try {
+        if (/^\d+$/.test(lookupKey)) {
+          // Treat as Roblox ID (lookupKey is numeric string)
+          const userResponse = await fetch(`https://users.roblox.com/v1/users/${lookupKey}`, {
+            method: "GET",
+            headers: {
+              "Content-Type": "application/json",
+              "x-csrf-token": csrfToken,
+              "Cookie": `${process.env.Cookie}`,
+            },
+          });
+
+          if (!userResponse.ok) {
+            return { error: `${userResponse.status}: ${userResponse.statusText}` };
+          }
+          user = await userResponse.json();
+        } else {
+          // Treat as Roblox username
+          const userResponse = await fetch("https://users.roblox.com/v1/usernames/users", {
+            method: "POST",
+            body: JSON.stringify({ usernames: [usernameOrId], excludeBannedUsers: false }),
+            headers: {
+              "Content-Type": "application/json",
+              "x-csrf-token": csrfToken,
+              "Cookie": `${process.env.Cookie}`,
+            },
+          });
+
+          if (!userResponse.ok) {
+            return { error: `${userResponse.status}: ${userResponse.statusText}` };
+          }
+
+          const json = await userResponse.json();
+          user = json.data && json.data[0];
         }
-        user = await userResponse.json();
-      } else {
-        // Treat as Roblox username
-        let userResponse = await fetch('https://users.roblox.com/v1/usernames/users', {
-          method: 'POST',
-          body: JSON.stringify({ usernames: [usernameOrId], excludeBannedUsers: false }),
-          headers: { 
-            'Content-Type': 'application/json',
-            "x-csrf-token": csrfToken,
-            "Cookie": `${process.env.Cookie}`
-          },
-        });
-        if (!userResponse.ok) {
-          return { error: userResponse.status + ": " + userResponse.statusText };
+
+        if (!user) return { error: "This roblox account doesn't exist!" };
+
+        console.log("Designated user:", user);
+
+        // Cache under both id and lowercase username (if available)
+        const idKey = String(user.id);
+        userCache[idKey] = user;
+        if (user.name) {
+          const nameKey = user.name.toLowerCase();
+          userCache[nameKey] = user;
         }
-        user = (await userResponse.json()).data[0];
+
+        // optional: log current cache keys for debugging
+        console.log("Cached keys:", Object.keys(userCache).slice(-4)); // show last few keys
+
+        return user;
+      } catch (err) {
+        console.error("getUser error:", err);
+        return { error: "Network or code error: " + err.message };
       }
-
-      if (!user) return { error: "This roblox account doesn't exist!" }
-      console.log('Designated user:', user);
-
-      // Cache by lowercase username if it exists, otherwise by ID
-      const cacheKey = user.name?.toLowerCase() || String(user.id);
-      userCache[cacheKey] = user;
-
-      return user;
     },
     getUserRole: async function(groupId, userId) {
       try {
