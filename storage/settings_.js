@@ -23,6 +23,81 @@ module.exports = {
       trainings: '1392701528753836124',
     },
     groups: [
+      { "groupId": 33359913, "mainRole": "1423143103128141914", 
+       "roles": [
+        {
+          "name": "Foreign Service Officer, Class 2",
+          "prefix": "[FSO2]",
+          "rank": 3,
+          "roles": [
+            "1426400041882484868",
+            "1426405254194401321"
+          ]
+        },
+         {
+           "name": "Foreign Service Officer, Class 1",
+           "prefix": "[FSO1]",
+           "rank": 4,
+           "roles": [
+             "1426400041882484868",
+             "1426405372947599360"
+           ]
+         },
+         {
+            "name": "Career Minister",
+            "prefix": "[CM]",
+            "rank": 5,
+            "roles": [
+              "1426400041882484868",
+              "1426405403226538176"
+            ]
+          },
+         {
+           "name": "Chief of Mission, Class 2",
+           "prefix": "[CoM2]",
+           "rank": 6,
+           "roles": [
+             "1426400041882484868",
+             "1426405445010067516"
+           ]
+         },
+         {
+            "name": "Chief of Mission, Class 1",
+            "prefix": "[CoM1]",
+            "rank": 7,
+            "roles": [
+              "1426400041882484868",
+              "1426405453834752214"
+            ]
+          },
+         {
+           "name": "Assistant Secretary of Foreign Affairs",
+           "prefix": "[ASEC]",
+           "rank": 8,
+           "roles": [
+             "1426400041882484868",
+             "1426405514270736466"
+           ]
+         },
+         {
+            "name": "Undersecretary for Multilateral Affairs and Bilateral Relations",
+            "prefix": "[USEC]",
+            "rank": 9,
+            "roles": [
+              "1426400041882484868",
+              "1426405548500189345"
+            ]
+          },
+         {
+           "name": "Undersecretary for Administration",
+           "prefix": "[USEC]",
+           "rank": 253,
+           "roles": [
+             "1426400041882484868",
+             "1426405574559404142"
+           ]
+         },
+      ] }, // DFA
       {
         "groupId": 34624144,
         "mainRole": "1261689745394896896",
@@ -302,81 +377,6 @@ module.exports = {
       { "groupId": 815276884, "mainRole": "1266333986410463263", "roles": [] }, // TRADOC
       { "groupId": 34844808, "mainRole": "1417828863169396756", "roles": [] }, // OCS
       { "groupId": 14198648, "mainRole": "1422981951815548998", "roles": [] }, // 1ID
-      { "groupId": 33359913, "mainRole": "1423143103128141914", 
-       "roles": [
-        {
-          "name": "Foreign Service Officer, Class 2",
-          "prefix": "[FSO2]",
-          "rank": 3,
-          "roles": [
-            "1426400041882484868",
-            "1426405254194401321"
-          ]
-        },
-         {
-           "name": "Foreign Service Officer, Class 1",
-           "prefix": "[FSO1]",
-           "rank": 4,
-           "roles": [
-             "1426400041882484868",
-             "1426405372947599360"
-           ]
-         },
-         {
-            "name": "Career Minister",
-            "prefix": "[CM]",
-            "rank": 5,
-            "roles": [
-              "1426400041882484868",
-              "1426405403226538176"
-            ]
-          },
-         {
-           "name": "Chief of Mission, Class 2",
-           "prefix": "[CoM2]",
-           "rank": 6,
-           "roles": [
-             "1426400041882484868",
-             "1426405445010067516"
-           ]
-         },
-         {
-            "name": "Chief of Mission, Class 1",
-            "prefix": "[CoM1]",
-            "rank": 7,
-            "roles": [
-              "1426400041882484868",
-              "1426405453834752214"
-            ]
-          },
-         {
-           "name": "Assistant Secretary of Foreign Affairs",
-           "prefix": "[ASEC]",
-           "rank": 8,
-           "roles": [
-             "1426400041882484868",
-             "1426405514270736466"
-           ]
-         },
-         {
-            "name": "Undersecretary for Multilateral Affairs and Bilateral Relations",
-            "prefix": "[USEC]",
-            "rank": 9,
-            "roles": [
-              "1426400041882484868",
-              "1426405548500189345"
-            ]
-          },
-         {
-           "name": "Undersecretary for Administration",
-           "prefix": "[USEC]",
-           "rank": 253,
-           "roles": [
-             "1426400041882484868",
-             "1426405574559404142"
-           ]
-         },
-      ] }, // DFA
     ],
     bot: {
       status: {

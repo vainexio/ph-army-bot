@@ -225,7 +225,7 @@ client.on("interactionCreate", async (inter) => {
       const options = inter.options._hoistedOptions;
       const usernameOpt = options.find(a => a.name === 'user');
       const rankOpt = options.find(a => a.name === 'rank');
-      const group = config.groups[0];
+      const group = config.groups[1];
       const groupId = group.groupId;
 
       if (!usernameOpt || !rankOpt) {
@@ -341,7 +341,7 @@ client.on("interactionCreate", async (inter) => {
       const type = options.find(a => a.name === 'type');
       const usernameOption = options.find(a => a.name === 'usernames'); // can be Roblox names or Discord mentions/IDs
       const amount = options.find(a => a.name === 'amount');
-      const group = config.groups[0];
+      const group = config.groups[1];
       const groupId = group.groupId;
 
       // initial reply while processing
@@ -545,7 +545,7 @@ client.on("interactionCreate", async (inter) => {
         });
       }
 
-      const group = config.groups[0];
+      const group = config.groups[1];
       const groupId = group.groupId;
 
       // Defer to allow time for network calls
@@ -671,7 +671,7 @@ client.on("interactionCreate", async (inter) => {
       // if user_info missing, default to the command invoker
       const rawInput = user_info && user_info.value ? String(user_info.value).trim() : `<@${inter.user.id}>`;
 
-      const group = config.groups[0];
+      const group = config.groups[1];
       const groupId = group.groupId;
       const guild = await getGuild("1261688857062281267"); // you used this earlier
 
@@ -1132,7 +1132,7 @@ app.post('/verify', async (req, res) => {
         const guildData = await getGuild("1261688857062281267")
         const user = await client.users.fetch(discordId);
         const robloxUser = await handler.getUser(robloxUsername);
-        const group = config.groups[0]
+        const group = config.groups[1]
 
         const member = await getMember(user.id, guildData)
         if (member) {
