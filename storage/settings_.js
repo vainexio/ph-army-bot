@@ -403,6 +403,10 @@ module.exports = {
       id: "497918770187075595",
       level: 5,
     },
+    {
+      id: "1426940803808493762",
+      level: 4,
+    },
   ],
   colors: colors,
   theme: colors.none,
