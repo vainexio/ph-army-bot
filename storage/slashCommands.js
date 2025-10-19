@@ -14,9 +14,9 @@ ATTACHMENT - 11
 
 module.exports = {
   register: true,
-  deleteSlashes: ['1417891106833699067'],
+  deleteSlashes: ['1413167000066330837','1413166977555365969','1413166989123260466'],
   slashes: [
-    {
+    /*{
       "name": "connect",
       "type": 1,
       "description": "Connect your roblox account",
@@ -50,7 +50,7 @@ module.exports = {
         { name: 'rank', type: 3, description: 'Rank', required: true },
       ]
     },
-    /*
+    
     {
       "name": "viewxp",
       "type": 1,
