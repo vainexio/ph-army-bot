@@ -14,8 +14,50 @@ ATTACHMENT - 11
 
 module.exports = {
   register: true,
-  deleteSlashes: ['1413167000066330837','1413166977555365969','1413166989123260466'],
+  deleteSlashes: ['1440320524503879812','1413166977555365969','1413166989123260466'],
   slashes: [
+    {
+      "name": "points",
+      "type": 1,
+      "description": "Add or subtract merit points from a user",
+      "options": [
+        {
+          "name": "type",
+          "type": 3,
+          "description": "Choose whether to add or subtract merit",
+          "required": true,
+          "choices": [
+            { "name": "Add", "value": "Add" },
+            { "name": "Subtract", "value": "Subtract" }
+          ]
+        },
+        {
+          "name": "usernames",
+          "type": 3,
+          "description": "Discord or Roblox usernames. Separate each name by comma (player1, player2, @User1, @User2)",
+          "required": true
+        },
+        {
+          "name": "amount",
+          "type": 4,
+          "description": "Amount of merit to add or subtract",
+          "required": true
+        }
+      ]
+    },
+    {
+      "name": "merits",
+      "type": 1,
+      "description": "View user merits",
+      "options": [
+        {
+          "name": "user",
+          "type": 3,
+          "description": "Discord or Roblox username",
+          "required": true
+        },
+      ]
+    },
     /*{
       "name": "connect",
       "type": 1,

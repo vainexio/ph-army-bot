@@ -1,7 +1,7 @@
 let colors = {
   red: "#FF7373",
   blue: "#85A3FF",
-  green: "#73FF8F",
+  green: "#00b615",
   yellow: "#fff4a1",
   orange: "#ff6300",
   purple: "#b200ff",
@@ -22,6 +22,24 @@ module.exports = {
       selections: '1392701616393687111',
       trainings: '1392701528753836124',
     },
+    awards: [
+      {
+        awardName: "<:Armed_Forces_Conduct_Medal:1440328971408506880> Armed Forces Conduct Medal",
+        requiredMerits: 500,
+      },
+      {
+        awardName: "<:Military_Commendation_Medal:1440329045463269416> Military Commendation Medal",
+        requiredMerits: 1000,
+      },
+      {
+        awardName: "<:Military_Civic_Action_Medal:1440329134248296448> Military Civic Action Medal",
+        requiredMerits: 1500,
+      },
+      {
+        awardName: "<:Sagisag_Ulirang_Kawal:1440329181983412385> Sagisag ng Ulirang Kawal",
+        requiredMerits: 2000,
+      },
+    ],
     groups: [
       { "groupId": 33359913, "mainRole": "1423143103128141914", 
        "roles": [
@@ -400,11 +418,11 @@ module.exports = {
       level: 4,
     },
     {
-      id: "497918770187075595",
+      id: "497918770187075595", // VAI
       level: 5,
     },
     {
-      id: "1426940803808493762",
+      id: "",
       level: 4,
     },
   ],
