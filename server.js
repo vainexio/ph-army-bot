@@ -531,7 +531,7 @@ client.on("interactionCreate", async (inter) => {
           }
           dbUser = await users.findOne({ robloxId: robloxUser.id }).exec();
           if (!dbUser) {
-            return inter.editReply({ content: emojis.warning + " This Discord account is not linked to any Roblox account. Use the </connect:1409919652494180362> command to link." });
+            return inter.editReply({ content: emojis.warning + " User has no merits to show progress." });
           }
 
         } else {
