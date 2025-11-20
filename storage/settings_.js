@@ -422,7 +422,7 @@ module.exports = {
       level: 5,
     },
     {
-      id: "",
+      id: "1426940803808493762", // Rank Perms
       level: 4,
     },
   ],
