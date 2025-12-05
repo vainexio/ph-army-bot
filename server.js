@@ -453,7 +453,8 @@ client.on("interactionCreate", async (inter) => {
           await inter.channel.send({ embeds: [embed] });
 
           if (newlyAwarded.length) {
-            await inter.channel.send({ content: emojis.check + ` New medal(s) for **@${user.name}**: ${newlyAwarded.join(', ')}` });
+            let targetCh = await getChannel('1446542949050749060');
+            await targetCh.send({ content: emojis.check + ` New medal(s) for **@${user.name}**: ${newlyAwarded.join(', ')}` });
           }
 
           processedCount++;
