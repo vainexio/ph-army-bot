@@ -1337,7 +1337,7 @@ app.get('/promoteUser', async (req, res) => {
     }
 
     const targetRole = (groupRolesRes.roles || []).find(r =>
-      String(r.name).toLowerCase() === 'pfc'
+      String(r.name).toLowerCase() === '[pfc] private first class'
     );
 
     if (!targetRole) {
