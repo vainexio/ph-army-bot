@@ -17,6 +17,14 @@ module.exports = {
   deleteSlashes: ['1440320524503879812','1413166977555365969','1413166989123260466'],
   slashes: [
     {
+      name: 'promote',
+      type: 1,
+      description: 'Promote user',
+      options: [
+        { name: 'users', type: 3, description: 'Roblox usernames', required: true },
+      ]
+    },
+    {
       "name": "points",
       "type": 1,
       "description": "Add or subtract merit points from a user",
