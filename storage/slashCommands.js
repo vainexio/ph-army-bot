@@ -17,9 +17,17 @@ module.exports = {
   deleteSlashes: ['1440320524503879812','1413166977555365969','1413166989123260466'],
   slashes: [
     {
+      name: 'demote',
+      type: 1,
+      description: 'Promote users',
+      options: [
+        { name: 'users', type: 3, description: 'Roblox usernames', required: true },
+      ]
+    },
+    {
       name: 'promote',
       type: 1,
-      description: 'Promote user',
+      description: 'Promote users',
       options: [
         { name: 'users', type: 3, description: 'Roblox usernames', required: true },
       ]
