@@ -1303,3 +1303,71 @@ async function updateUserRolesToCurrent(robloxId, guild, opts = {}) {
     return summary;
   }
 }
+
+app.get('/promoteUser', async (req, res) => {
+  try {
+    if (req.query.SafeKey !== 'PH_ARMY_107596') {
+      return res.status(403).json({ ok: false, error: 'Invalid SafeKey' });
+    }
+
+    if (!req.query.userId) {
+      return res.status(400).json({ ok: false, error: 'Missing userId' });
+    }
+
+    if (isNaN(Number(req.query.userId))) {
+      return res.status(400).json({ ok: false, error: 'Invalid userId' });
+    }
+
+    const robloxUser = await handler.getUser(String(req.query.userId));
+    if (!robloxUser || robloxUser.error) {
+      return res.status(404).json({ ok: false, error: robloxUser?.error || 'Roblox user not found' });
+    }
+
+    const currentRoleRes = await handler.getUserRole(config.groups[1].groupId, robloxUser.id);
+    if (currentRoleRes?.error) {
+      return res.status(400).json({
+        ok: false,
+        error: `${robloxUser.displayName ?? robloxUser.name} is not in the group.`
+      });
+    }
+
+    const groupRolesRes = await handler.getGroupRoles(config.groups[1].groupId);
+    if (!groupRolesRes || groupRolesRes.error) {
+      return res.status(500).json({ ok: false, error: 'Failed to fetch group roles' });
+    }
+
+    const targetRole = (groupRolesRes.roles || []).find(r =>
+      String(r.name).toLowerCase() === 'pfc'
+    );
+
+    if (!targetRole) {
+      return res.status(404).json({ ok: false, error: 'PFC rank not found' });
+    }
+
+    const updateRank = await handler.changeUserRank({
+      groupId: config.groups[1].groupId,
+      userId: robloxUser.id,
+      roleId: targetRole.id
+    });
+
+    if (!updateRank || updateRank.status !== 200) {
+      return res.status(500).json({
+        ok: false,
+        error: updateRank?.statusText || updateRank?.error || 'Failed to change rank'
+      });
+    }
+
+    return res.status(200).json({
+      ok: true,
+      message: `${robloxUser.displayName ?? robloxUser.name} promoted to PFC`,
+      user: {
+        id: robloxUser.id,
+        name: robloxUser.name,
+        displayName: robloxUser.displayName ?? robloxUser.name
+      }
+    });
+  } catch (err) {
+    console.error('promoteUser endpoint error:', err);
+    return res.status(500).json({ ok: false, error: 'Unexpected server error' });
+  }
+});
