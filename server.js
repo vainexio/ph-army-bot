@@ -218,8 +218,190 @@ client.on("interactionCreate", async (inter) => {
   if (stopFlow) return;
   if (inter.isCommand()) {
     let cname = inter.commandName
+    if (cname === 'promote') {
+  if (!await getPerms(inter.member, 4)) {
+    return inter.reply({ content: emojis.warning + ' Insufficient Permission' });
+  }
 
-    if (cname === 'setrank') {
+  const options = inter.options._hoistedOptions;
+  const usernameOpt = options.find(a => a.name === 'users');
+  const group = config.groups[1];
+  const groupId = group.groupId;
+
+  if (!usernameOpt) {
+    return inter.reply({ content: emojis.warning + ' Missing required options.', ephemeral: true });
+  }
+
+  await inter.deferReply();
+
+  const fail = async (msg) => inter.editReply({ content: msg });
+
+  // Ranks to skip during promotion
+  const skippedRanks = new Set([4, 11, 18, 21]);
+
+  const getNextRankNumber = (currentRank) => {
+    let next = Number(currentRank) + 1;
+    while (skippedRanks.has(next)) next++;
+    return next;
+  };
+
+  try {
+    const rawInput = String(usernameOpt.value).trim();
+
+    // Supports:
+    // "Roblox1 Roblox2 Roblox3"
+    // "Roblox1, Roblox2, Roblox3"
+    const targets = rawInput
+      .split(/[\s,]+/)
+      .map(s => s.trim())
+      .filter(Boolean);
+
+    if (targets.length === 0) {
+      return fail(emojis.warning + ' No users were provided.');
+    }
+
+    // Fetch group roles once
+    const groupRolesRes = await handler.getGroupRoles(groupId);
+    if (!groupRolesRes || groupRolesRes.error) {
+      return fail(emojis.warning + ' Failed to fetch group roles. Try again later.');
+    }
+
+    const roles = groupRolesRes.roles || [];
+
+    const successes = [];
+    const failures = [];
+
+    for (const target of targets) {
+      try {
+        const mentionMatch = target.match(/^<@!?(\d+)>$/);
+        const rawDiscordIdMatch = !mentionMatch && target.match(/^(\d{17,20})$/);
+
+        let robloxUser;
+        let dbUserRecord;
+
+        if (mentionMatch || rawDiscordIdMatch) {
+          const discordIdentifier = mentionMatch ? mentionMatch[0] : rawDiscordIdMatch[1];
+          const discordObj = await getUser(discordIdentifier);
+
+          if (!discordObj || discordObj.error) {
+            failures.push(`${target} — failed to resolve Discord user`);
+            continue;
+          }
+
+          dbUserRecord = await users.findOne({ discordId: String(discordObj.id) }).exec();
+          if (!dbUserRecord) {
+            failures.push(`${target} — this Discord account is not linked to any Roblox account`);
+            continue;
+          }
+
+          robloxUser = await handler.getUser(String(dbUserRecord.robloxId));
+          if (robloxUser.error) {
+            failures.push(`${target} — ${robloxUser.error}`);
+            continue;
+          }
+        } else {
+          robloxUser = await handler.getUser(target);
+          if (robloxUser.error) {
+            failures.push(`${target} — ${robloxUser.error}`);
+            continue;
+          }
+
+          dbUserRecord = await users.findOne({ robloxId: String(robloxUser.id) }).exec();
+          if (!dbUserRecord) {
+            dbUserRecord = await users.create({ robloxId: String(robloxUser.id), xp: 0 });
+          }
+        }
+
+        const currentRoleRes = await handler.getUserRole(groupId, robloxUser.id);
+        if (currentRoleRes.error) {
+          failures.push(`${robloxUser.displayName ?? robloxUser.name} — not in the group`);
+          continue;
+        }
+
+        const currentRole = currentRoleRes;
+        const currentRankNumber = Number(currentRole.rank);
+
+        if (!Number.isFinite(currentRankNumber)) {
+          failures.push(`${robloxUser.displayName ?? robloxUser.name} — invalid current rank`);
+          continue;
+        }
+
+        const nextRankNumber = getNextRankNumber(currentRankNumber);
+
+        // Find the next rank role by exact rank number
+        const targetRole = roles.find(r => Number(r.rank) === nextRankNumber);
+
+        if (!targetRole) {
+          failures.push(`${robloxUser.displayName ?? robloxUser.name} — no promotion rank found for ${nextRankNumber}`);
+          continue;
+        }
+
+        const updateRank = await handler.changeUserRank({
+          groupId: groupId,
+          userId: robloxUser.id,
+          roleId: targetRole.id
+        });
+
+        if (!updateRank || updateRank.status !== 200) {
+          const statusText = updateRank?.statusText || (updateRank?.error ?? 'Unknown error');
+          failures.push(`${robloxUser.displayName ?? robloxUser.name} — ${updateRank?.status ?? 'ERR'}: ${statusText}`);
+          continue;
+        }
+
+        successes.push({
+          name: robloxUser.displayName ?? robloxUser.name,
+          username: robloxUser.name,
+          id: robloxUser.id,
+          previousRank: currentRole.name,
+          newRank: targetRole.name,
+          nextRankNumber
+        });
+      } catch (err) {
+        console.error(`Failed to process target "${target}":`, err);
+        failures.push(`${target} — unexpected error`);
+      }
+    }
+
+    const successText = successes.length
+      ? successes.map(u => `+ ${u.name} (@${u.username}) | ${u.previousRank} -> ${u.newRank}`).join('\n')
+      : 'None';
+
+    const failureText = failures.length
+      ? failures.map(f => `- ${f}`).join('\n')
+      : 'None';
+
+    const embed = new MessageEmbed()
+      .setColor(successes.length ? colors.green : colors.red)
+      .setTitle('Promotion Results')
+      .setDescription('Promoted each user to their next eligible rank.')
+      .addFields(
+        { name: `Succeeded (${successes.length})`, value: `\`\`\`diff\n${successText}\n\`\`\`` },
+        { name: `Failed (${failures.length})`, value: `\`\`\`diff\n${failureText}\n\`\`\`` }
+      );
+
+    await inter.editReply({
+      content: successes.length
+        ? emojis.check + ` Promoted ${successes.length} user(s)`
+        : emojis.warning + ' No users were promoted.',
+      embeds: [embed]
+    });
+
+    const logs = await getChannel(config.channels.logs);
+    const logEmbed = new MessageEmbed()
+      .setDescription(`${inter.user.toString()} used \`/promote\` command.`)
+      .setColor(colors.green)
+      .addFields(
+        { name: 'Succeeded', value: String(successes.length), inline: true },
+        { name: 'Failed', value: String(failures.length), inline: true }
+      );
+
+    await logs.send({ embeds: [logEmbed] });
+  } catch (err) {
+    console.error('promote handler error:', err);
+    return inter.editReply({ content: '```diff\n- An unexpected error occurred. Check the bot logs.```' });
+  }
+}
+    else if (cname === 'setrank') {
       if (!await getPerms(inter.member, 4)) return inter.reply({ content: emojis.warning + ' Insufficient Permission' });
 
       const options = inter.options._hoistedOptions;
