@@ -449,7 +449,7 @@ client.on("interactionCreate", async (inter) => {
   }
 
   const options = inter.options._hoistedOptions;
-  const usernameOpt = options.find(a => a.name === 'user');
+  const usernameOpt = options.find(a => a.name === 'users');
   const group = config.groups[1];
   const groupId = group.groupId;
 
