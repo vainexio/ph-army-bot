@@ -371,7 +371,7 @@ client.on("interactionCreate", async (inter) => {
         }
 
         successes.push({
-          name: robloxUser.displayName ?? robloxUser.name,
+          name: robloxUser.name ?? robloxUser.displayName,
           username: robloxUser.name,
           id: robloxUser.id,
           previousRank: compactRankName(currentRole.name),
@@ -590,7 +590,7 @@ client.on("interactionCreate", async (inter) => {
         }
 
         successes.push({
-          name: robloxUser.displayName ?? robloxUser.name,
+          name: robloxUser.name ?? robloxUser.displayName,
           username: robloxUser.name,
           id: robloxUser.id,
           previousRank: compactRankName(currentRole.name),
