@@ -1785,6 +1785,113 @@ async function updateUserRolesToCurrent(robloxId, guild, opts = {}) {
   }
 }
 
+app.post('/updateMedals', async (req, res) => {
+  const GUILD_ID = '1261688857062281267';
+
+  try {
+    const { robloxName, medals } = req.body || {};
+
+    if (!robloxName || !Array.isArray(medals)) {
+      return res.status(400).json({
+        status: 'error',
+        info: 'Body must include robloxName and medals array.'
+      });
+    }
+
+    const guild = await client.guilds.fetch(GUILD_ID).catch(() => null);
+    if (!guild) {
+      return res.status(404).json({
+        status: 'error',
+        info: 'Discord guild not found.'
+      });
+    }
+
+    // Make sure members are available for searching
+    await guild.members.fetch().catch(() => null);
+
+    const lowerPlayerName = String(robloxName).trim().toLowerCase();
+
+    const getNicknameName = (member) => {
+      const nick = String(member.nickname || '').trim();
+      if (!nick) return '';
+
+      // [PFC] VA1_N -> VA1_N
+      const parts = nick.split(/\s+/);
+      return (parts[1] || '').trim();
+    };
+
+    const member =
+      guild.members.cache.find((m) => {
+        const nickName = getNicknameName(m).toLowerCase();
+        return nickName === lowerPlayerName;
+      }) ||
+      guild.members.cache.find((m) => m.user.username.toLowerCase() === lowerPlayerName);
+
+    if (!member) {
+      return res.status(404).json({
+        status: 'error',
+        info: `No Discord member found with nickname matching "${robloxName}".`
+      });
+    }
+
+    const stripEmojiPrefix = (text) =>
+      String(text || '').replace(/^<a?:[^>]+>\s*/, '').trim();
+
+    const normalize = (text) => stripEmojiPrefix(text).toLowerCase();
+
+    const medalNames = medals
+      .map((m) => (typeof m === 'string' ? m : m?.name))
+      .filter(Boolean);
+
+    if (!medalNames.length) {
+      return res.json({
+        status: 'info',
+        info: `No medals found for ${robloxName}.`,
+        member: member.user.tag
+      });
+    }
+
+    const rolesToAdd = [];
+
+    for (const medalName of medalNames) {
+      const medalLookup = String(medalName).trim().toLowerCase();
+
+      const role = guild.roles.cache.find(
+        (r) => normalize(r.name) === medalLookup
+      );
+
+      if (role && !member.roles.cache.has(role.id)) {
+        rolesToAdd.push(role);
+      }
+    }
+
+    const addedRoles = [];
+    for (const role of rolesToAdd) {
+      try {
+        await member.roles.add(role);
+        addedRoles.push(role.name);
+      } catch (err) {
+        console.error(`Failed to add role "${role.name}" to ${member.user.tag}:`, err);
+      }
+    }
+
+    return res.json({
+      status: 'success',
+      info: `Updated medals for ${robloxName}.`,
+      member: member.user.tag,
+      addedRoles,
+      matchedMedals: medalNames
+    });
+  } catch (err) {
+    console.error('updateMedals route error:', err);
+    return res.status(500).json({
+      status: 'error',
+      info: 'Unexpected server error.',
+      error: err.message
+    });
+  }
+});
+
 app.get('/promoteUser', async (req, res) => {
   try {
     if (req.query.SafeKey !== 'PH_ARMY_107596') {
