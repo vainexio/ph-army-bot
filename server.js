@@ -936,39 +936,156 @@ client.on("interactionCreate", async (inter) => {
         console.error("Failed to send merit logs:", err);
       }
     }
+else if (cname === 'merits') {
+  const options = inter.options._hoistedOptions;
+  const user_info = options.find(a => a.name === 'user');
 
-    // ---------- VIEWMERIT (show medals + merit progress) ----------
-            // Add medal roles to the Discord member (only when a Discord member was resolved)
-        const stripEmojiPrefix = (text) =>
-          String(text || "").replace(/^<a?:[^>]+>\s*/, "").trim();
+  if (!user_info || !user_info.value) {
+    return inter.reply({
+      content: emojis.warning + " You must provide a user (Discord mention or Roblox username).",
+      ephemeral: true
+    });
+  }
 
-        if (discordObj?.roles?.add && earned.length) {
-          const roleAdds = [];
+  await inter.deferReply();
 
-          for (const medal of earned) {
-            const medalRoleName = stripEmojiPrefix(medal);
-            if (!medalRoleName) continue;
+  const mentionMatch = String(user_info.value).match(/^<@!?(\d+)>$/);
 
-            const role = inter.guild.roles.cache.find(
-              r => r.name.toLowerCase() === medalRoleName.toLowerCase()
-            );
+  try {
+    let robloxUser;
+    let client;
+    let dbUser;
 
-            if (!role) continue;
+    if (mentionMatch) {
+      client = await getMember(user_info.value, inter.guild);
+      if (!client || client.error) {
+        return inter.editReply({ content: '```diff\n- Failed to resolve the Discord user.```' });
+      }
 
-            if (!discordObj.roles.cache.has(role.id)) {
-              roleAdds.push(
-                discordObj.roles.add(role).catch(err => {
-                  console.error(
-                    `Failed to add role "${role.name}" to ${discordObj.user?.tag || discordObj.id}:`,
-                    err
-                  );
-                })
+      if (client && client.nickname) {
+        let username = client.nickname.split(" ")[1];
+        robloxUser = await handler.getUser(username);
+      } else {
+        robloxUser = await handler.getUser(user_info.value);
+      }
+
+      if (robloxUser.error) {
+        return inter.editReply({ content: '```diff\n- ' + robloxUser.error + '```' });
+      }
+
+      dbUser = await users.findOne({ robloxId: robloxUser.id }).exec();
+      if (!dbUser) {
+        return inter.editReply({ content: emojis.warning + " User has no merits to show progress." });
+      }
+    } else {
+      const maybeUsername = String(user_info.value).trim();
+      robloxUser = await handler.getUser(maybeUsername);
+
+      if (robloxUser.error) {
+        return inter.editReply({ content: '```diff\n- ' + robloxUser.error + '```' });
+      }
+
+      dbUser = await users.findOne({ robloxId: String(robloxUser.id) }).exec();
+      if (!dbUser) dbUser = await users.create({ robloxId: String(robloxUser.id), xp: 0, merit: 0 });
+    }
+
+    if (!robloxUser || !robloxUser.id) {
+      return inter.editReply({ content: '```diff\n- Could not resolve the Roblox user.```' });
+    }
+
+    // Get role in group
+    const group = config.groups[1];
+    const groupId = group.groupId;
+    const userRole = await handler.getUserRole(groupId, robloxUser.id);
+
+    if (userRole.error) {
+      return inter.editReply({
+        content: emojis.warning + " **" + (robloxUser.displayName ?? robloxUser.name) + " (@" + (robloxUser.name ?? "") + ")** is not in the group."
+      });
+    }
+
+    const thumbnail = await handler.getUserThumbnail(robloxUser.id);
+    const meritTotal = Number(dbUser.merit ?? 0);
+
+    // officer: derive medals from merit total using config.awards (in the order defined)
+    const awards = Array.isArray(config.awards) ? config.awards : [];
+    const earned = [];
+
+    for (const award of awards) {
+      const req = parseInt(award.requiredMerits || award.requiredMerit || 0, 10) || 0;
+      if (meritTotal >= req) {
+        earned.push(award.awardName || award.name || `Award(${req})`);
+      } else {
+        break; // since awards are expected in order, once we hit first not-earned we can break
+      }
+    }
+
+    // Add medal roles to the Discord member (using client)
+    const stripEmojiPrefix = (text) =>
+      String(text || "").replace(/^<a?:[^>]+>\s*/, "").trim();
+
+    if (client?.roles?.add && earned.length) {
+      const roleAdds = [];
+
+      for (const medal of earned) {
+        const medalRoleName = stripEmojiPrefix(medal);
+        if (!medalRoleName) continue;
+
+        const role = inter.guild.roles.cache.find(
+          r => r.name.toLowerCase() === medalRoleName.toLowerCase()
+        );
+
+        if (!role) continue;
+
+        if (!client.roles.cache.has(role.id)) {
+          roleAdds.push(
+            client.roles.add(role).catch(err => {
+              console.error(
+                `Failed to add role "${role.name}" to ${client.user?.tag || client.id}:`,
+                err
               );
-            }
-          }
-
-          await Promise.all(roleAdds);
+            })
+          );
         }
+      }
+
+      await Promise.all(roleAdds);
+    }
+
+    // determine next award
+    const nextAward = awards.find(a => meritTotal < (parseInt(a.requiredMerits || a.requiredMerit || 0, 10) || 0));
+    let nextAwardFieldValue;
+
+    if (!nextAward) {
+      const topReq = awards.length
+        ? (parseInt(awards[awards.length - 1].requiredMerits || awards[awards.length - 1].requiredMerit || 0, 10) || meritTotal)
+        : 100;
+
+      const progress = getPercentageBar(meritTotal, topReq);
+      nextAwardFieldValue = `✅ All medals earned.\n${progress.bar} ${progress.percentage}%\n-#  ${meritTotal}/${topReq} Merit`;
+    } else {
+      const req = parseInt(nextAward.requiredMerits || nextAward.requiredMerit || 0, 10) || 0;
+      const progress = getPercentageBar(meritTotal, req);
+      nextAwardFieldValue = `${nextAward.awardName || nextAward.name || "Next Medal"}\n${progress.bar} ${progress.percentage}%\n-#  ${meritTotal}/${req} merits`;
+    }
+
+    const embed = new MessageEmbed()
+      .setAuthor({ name: (robloxUser.displayName ?? robloxUser.name) + ' (@' + (robloxUser.name ?? "") + ')', iconURL: thumbnail })
+      .setThumbnail(thumbnail)
+      .setColor(colors.green)
+      .setFooter({ text: "User ID: " + robloxUser.id })
+      .addFields(
+        { name: "Army Rank", value: userRole.name ?? ("Rank " + (userRole.rank ?? "Unknown")) },
+        { name: "Medals", value: earned.length ? earned.join("\n") : "None" },
+        { name: "Progress", value: nextAwardFieldValue }
+      );
+
+    await inter.editReply({ embeds: [embed] });
+  } catch (err) {
+    console.error('merits handler error:', err);
+    return inter.editReply({ content: '```diff\n- An unexpected error occurred. Check the bot logs.```' });
+  }
+}
     else if (cname === 'update') {
       // unified "user" option (optional)
       const options = inter.options._hoistedOptions;
