@@ -1990,36 +1990,62 @@ app.get('/setRank', async (req, res) => {
 
 app.post("/log", async (req, res) => {
   try {
+    console.log("[/log] Request received");
+    console.log("[/log] Query:", req.query);
+    console.log("[/log] Body:", req.body);
+
     const { secretKey } = req.query;
     const { channelId, message } = req.body;
 
     if (secretKey !== "PH_ARMY_107697") {
+      console.warn("[/log] Invalid secret key:", secretKey);
       return res.status(401).json({ success: false, error: "Invalid secret key" });
     }
 
     if (typeof channelId !== "string" || typeof message !== "string") {
+      console.warn("[/log] Invalid body types:", {
+        channelIdType: typeof channelId,
+        messageType: typeof message,
+      });
       return res.status(400).json({ success: false, error: "channelId and message must be strings" });
     }
 
-    const channel = await client.channels.fetch(channelId).catch(() => null);
+    console.log("[/log] Fetching channel:", channelId);
+
+    const channel = await client.channels.fetch(channelId).catch((err) => {
+      console.error("[/log] Failed to fetch channel:", err);
+      return null;
+    });
 
     if (!channel) {
+      console.warn("[/log] Channel not found:", channelId);
       return res.status(404).json({ success: false, error: "Channel not found" });
     }
+
+    console.log("[/log] Channel fetched:", {
+      id: channel.id,
+      type: channel.type,
+      name: channel.name ?? "Unknown",
+    });
 
     if (
       channel.type !== ChannelType.GuildText &&
       channel.type !== ChannelType.GuildAnnouncement &&
       !channel.isTextBased()
     ) {
+      console.warn("[/log] Channel is not text-based:", channel.id, channel.type);
       return res.status(400).json({ success: false, error: "Channel is not text-based" });
     }
 
+    console.log("[/log] Sending message:", message);
+
     await channel.send(message);
+
+    console.log("[/log] Message sent successfully to channel:", channelId);
 
     return res.json({ success: true });
   } catch (err) {
-    console.error("Log route error:", err);
+    console.error("[/log] Log route error:", err);
     return res.status(500).json({ success: false, error: "Internal server error" });
   }
 });
