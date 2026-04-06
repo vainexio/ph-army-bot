@@ -1987,3 +1987,48 @@ app.get('/setRank', async (req, res) => {
     return res.status(500).json({ ok: false, error: 'Unexpected server error' });
   }
 });
+
+const express = require("express");
+const { ChannelType } = require("discord.js");
+
+const app = express();
+app.use(express.json());
+
+// keep this in an env var in real use
+const SECRET_KEY = "PH_ARMY_107697";
+
+app.post("/log", async (req, res) => {
+  try {
+    const { secretKey } = req.query;
+    const { channelId, message } = req.body;
+
+    if (secretKey !== SECRET_KEY) {
+      return res.status(401).json({ success: false, error: "Invalid secret key" });
+    }
+
+    if (typeof channelId !== "string" || typeof message !== "string") {
+      return res.status(400).json({ success: false, error: "channelId and message must be strings" });
+    }
+
+    const channel = await client.channels.fetch(channelId).catch(() => null);
+
+    if (!channel) {
+      return res.status(404).json({ success: false, error: "Channel not found" });
+    }
+
+    if (
+      channel.type !== ChannelType.GuildText &&
+      channel.type !== ChannelType.GuildAnnouncement &&
+      !channel.isTextBased()
+    ) {
+      return res.status(400).json({ success: false, error: "Channel is not text-based" });
+    }
+
+    await channel.send(message);
+
+    return res.json({ success: true });
+  } catch (err) {
+    console.error("Log route error:", err);
+    return res.status(500).json({ success: false, error: "Internal server error" });
+  }
+});
