@@ -557,7 +557,7 @@ client.on("interactionCreate", async (inter) => {
 
         const currentRoleRes = await handler.getUserRole(groupId, robloxUser.id);
         if (currentRoleRes.error) {
-          failures.push(`${robloxUser.displayName ?? robloxUser.name} — not in the group`);
+          failures.push(`${robloxUser.name} — not in the group`);
           continue;
         }
 
@@ -565,7 +565,7 @@ client.on("interactionCreate", async (inter) => {
         const currentRankNumber = Number(currentRole.rank);
 
         if (!Number.isFinite(currentRankNumber)) {
-          failures.push(`${robloxUser.displayName ?? robloxUser.name} — invalid current rank`);
+          failures.push(`${robloxUser.name} — invalid current rank`);
           continue;
         }
 
@@ -573,7 +573,7 @@ client.on("interactionCreate", async (inter) => {
         const targetRole = roles.find(r => Number(r.rank) === nextRankNumber);
 
         if (!targetRole) {
-          failures.push(`${robloxUser.displayName ?? robloxUser.name} — no promotion rank found for ${nextRankNumber}`);
+          failures.push(`${robloxUser.name} — no promotion rank found for ${nextRankNumber}`);
           continue;
         }
 
@@ -585,7 +585,7 @@ client.on("interactionCreate", async (inter) => {
 
         if (!updateRank || updateRank.status !== 200) {
           const statusText = updateRank?.statusText || (updateRank?.error ?? 'Unknown error');
-          failures.push(`${robloxUser.displayName ?? robloxUser.name} — ${updateRank?.status ?? 'ERR'}: ${statusText}`);
+          failures.push(`${robloxUser.name} — ${updateRank?.status ?? 'ERR'}: ${statusText}`);
           continue;
         }
 
