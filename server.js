@@ -1988,21 +1988,12 @@ app.get('/setRank', async (req, res) => {
   }
 });
 
-const express = require("express");
-const { ChannelType } = require("discord.js");
-
-const app = express();
-app.use(express.json());
-
-// keep this in an env var in real use
-const SECRET_KEY = "PH_ARMY_107697";
-
 app.post("/log", async (req, res) => {
   try {
     const { secretKey } = req.query;
     const { channelId, message } = req.body;
 
-    if (secretKey !== SECRET_KEY) {
+    if (secretKey !== "PH_ARMY_107697") {
       return res.status(401).json({ success: false, error: "Invalid secret key" });
     }
 
