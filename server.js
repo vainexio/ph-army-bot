@@ -2028,17 +2028,7 @@ app.post("/log", async (req, res) => {
       name: channel.name ?? "Unknown",
     });
 
-    if (
-      channel.type !== ChannelType.GuildText &&
-      channel.type !== ChannelType.GuildAnnouncement &&
-      !channel.isTextBased()
-    ) {
-      console.warn("[/log] Channel is not text-based:", channel.id, channel.type);
-      return res.status(400).json({ success: false, error: "Channel is not text-based" });
-    }
-
     console.log("[/log] Sending message:", message);
-
     await channel.send(message);
 
     console.log("[/log] Message sent successfully to channel:", channelId);
