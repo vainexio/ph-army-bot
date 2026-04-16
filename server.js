@@ -1975,7 +1975,7 @@ app.get('/setRank', async (req, res) => {
 
     return res.status(200).json({
       ok: true,
-      message: `${robloxUser.displayName ?? robloxUser.name} promoted to ${req.query.rank}`,
+      message: `${robloxUser.name} promoted to ${req.query.rank}`,
       user: {
         id: robloxUser.id,
         name: robloxUser.name,
