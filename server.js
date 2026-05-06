@@ -1934,6 +1934,10 @@ app.get('/setRank', async (req, res) => {
       return res.status(400).json({ ok: false, error: 'Invalid userId' });
     }
 
+    if (!req.query.rank) {
+      return res.status(400).json({ ok: false, error: 'Missing rank' });
+    }
+
     const robloxUser = await handler.getUser(String(req.query.userId));
     if (!robloxUser || robloxUser.error) {
       return res.status(404).json({ ok: false, error: robloxUser?.error || 'Roblox user not found' });
@@ -1953,11 +1957,27 @@ app.get('/setRank', async (req, res) => {
     }
 
     const targetRole = (groupRolesRes.roles || []).find(r =>
-      String(r.name).toLowerCase() === req.query.rank.toLowerCase()
+      String(r.name).toLowerCase() === String(req.query.rank).toLowerCase()
     );
 
     if (!targetRole) {
-      return res.status(404).json({ ok: false, error: req.query.rank+' rank not found' });
+      return res.status(404).json({ ok: false, error: `${req.query.rank} rank not found` });
+    }
+
+    const currentRole =
+      currentRoleRes.role || currentRoleRes.currentRole || currentRoleRes;
+
+    const currentRank = Number(
+      currentRole.rank ?? currentRole.role?.rank ?? currentRole.position ?? currentRole.role?.position
+    );
+
+    const targetRank = Number(targetRole.rank ?? targetRole.position);
+
+    if (!Number.isNaN(currentRank) && !Number.isNaN(targetRank) && currentRank >= targetRank) {
+      return res.status(400).json({
+        ok: false,
+        error: `${robloxUser.displayName ?? robloxUser.name} is already higher than or equal to ${req.query.rank}.`
+      });
     }
 
     const updateRank = await handler.changeUserRank({
@@ -1987,7 +2007,6 @@ app.get('/setRank', async (req, res) => {
     return res.status(500).json({ ok: false, error: 'Unexpected server error' });
   }
 });
-
 app.post("/log", async (req, res) => {
   try {
     console.log("[/log] Request received");
